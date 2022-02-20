@@ -1,11 +1,9 @@
 package com.driev.portal.model;
  
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.mapping.Document;
 @Document (collection = "Employee")
 @CompoundIndexes({
     @CompoundIndex(name = "employee_group", def = "{'firstName' : 1, 'lastName': 1}",unique=true)

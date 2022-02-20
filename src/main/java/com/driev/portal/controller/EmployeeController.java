@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.driev.portal.exception.ResourceNotFoundException;
 import com.driev.portal.model.Employee;
 import com.driev.portal.repository.EmployeeRepository;
-//import com.driev.portal.service.SequenceGeneratorService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -30,12 +28,6 @@ import com.driev.portal.repository.EmployeeRepository;
 public class EmployeeController {
 	@Autowired
 	private EmployeeRepository employeeRepository;
-	
-	@Autowired
-    private MongoTemplate mongoTemplate;
-	
-	//@Autowired
-	//private SequenceGeneratorService sequenceGeneratorService;
 
 	@GetMapping("/employees")
 	public List<Employee> getAllEmployees() {
@@ -51,23 +43,18 @@ public class EmployeeController {
 	}
 
 	@PostMapping("/employees")
-	public Employee createEmployee( @RequestBody Employee employee) {
-		//employee.setId(sequenceGeneratorService.generateSequence(Employee.SEQUENCE_NAME));
+	public Employee createEmployee(@RequestBody Employee employee) {
 		return employeeRepository.save(employee);
 	}
 
 	@GetMapping("/addEmployees")
 	public Collection<Employee> addEmloyees() {
 		List<Employee> list = new ArrayList<>();
-		//List<WriteModel<Employee>> bulkWrites = new ArrayList<>();
-		for(int i=300;i>-10;i--) {
-			Employee e1 = new Employee("F"+i, "L"+i, "Em"+i);
-			//e1.setId(sequenceGeneratorService.generateSequence(Employee.SEQUENCE_NAME));
+		for (int i = 300; i > -10; i--) {
+			Employee e1 = new Employee("F" + i, "L" + i, "Em" + i);
 			list.add(e1);
-			//bulkWrites.add(new InsertOneModel<Employee>(e1));
 		}
 		return employeeRepository.saveAll(list);
-		//return mongoTemplate.insertAll(list);
 	}
 
 	@PutMapping("/employees/{id}")
@@ -94,10 +81,9 @@ public class EmployeeController {
 		response.put("deleted", Boolean.TRUE);
 		return response;
 	}
-	
+
 	@DeleteMapping("/employees")
-	public Map<String, Boolean> deleteAllEmployee()
-			throws ResourceNotFoundException {
+	public Map<String, Boolean> deleteAllEmployee() throws ResourceNotFoundException {
 		employeeRepository.deleteAll();
 		Map<String, Boolean> response = new HashMap<>();
 		response.put("deleted", Boolean.TRUE);
